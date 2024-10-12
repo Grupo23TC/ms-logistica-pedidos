@@ -37,7 +37,7 @@ public class EntregadorServiceImpl implements EntregadorService {
     }
 
     @Override
-    public Entregador atualizarEntregador(Long id, AtualizarEntregadorRequest request) {
+    public Entregador atualizarStatusEntregador(Long id, AtualizarEntregadorRequest request) {
         Entregador entregador = buscarEntregadorPorId(id);
 
         entregador.setEstaDisponivel(request.estaDisponivel());

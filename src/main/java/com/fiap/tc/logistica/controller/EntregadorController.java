@@ -36,7 +36,7 @@ public class EntregadorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Entregador> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEntregadorRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(entregadorService.atualizarEntregador(id, request));
+        return ResponseEntity.status(HttpStatus.OK).body(entregadorService.atualizarStatusEntregador(id, request));
     }
 
     @DeleteMapping("/{id}")

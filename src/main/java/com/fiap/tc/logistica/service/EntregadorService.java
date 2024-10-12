@@ -11,7 +11,7 @@ public interface EntregadorService {
     List<Entregador> listarEntregadoresDisponiveis();
     Entregador buscarEntregadorPorId(Long id);
     Entregador cadastraEntregador(CadastrarEntregadorRequest entregador);
-    Entregador atualizarEntregador(Long id, AtualizarEntregadorRequest entregador);
+    Entregador atualizarStatusEntregador(Long id, AtualizarEntregadorRequest entregador);
     boolean removerEntregador(Long id);
 
 }

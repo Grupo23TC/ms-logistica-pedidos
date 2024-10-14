@@ -17,7 +17,7 @@ public interface PedidoFeignClient {
     @GetMapping(value = "/pedidos/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     Pedido buscarPedidoPorId(@PathVariable("id") Long id);
 
-    @PutMapping("/atualizar-status/{id}")
+    @PutMapping("/pedidos/atualizar-status/{id}")
     Pedido atualizarStatusPedido(@PathVariable("id") Long id, @RequestBody AtualizarStatusPedidoRequest status);
 
 }

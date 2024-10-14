@@ -44,19 +44,25 @@ public class EntregaServiceImpl implements EntregaService {
     @Override
     public RotaResponse calcularEntrega(CalcularEntregaRequest request) {
 
-        Cliente cliente = clienteService.buscarClientePorId(request.clientId());
-        if (cliente == null) {
-            throw new ClienteNotFoundException("Cliente de id: " + request.clientId() + " não encontrado.");
+        List<Entrega> entregaPorPedido = entregaRepository.findByPedidoId(request.pedidoId());
+
+        if (!entregaPorPedido.isEmpty()) {
+            throw new IllegalStateException("Já existe uma entrega com esse pedido");
         }
+
+//        Cliente cliente = clienteService.buscarClientePorId(request.clientId());
+//        if (cliente == null) {
+//            throw new ClienteNotFoundException("Cliente de id: " + request.clientId() + " não encontrado.");
+//        }
 
         Pedido pedido = pedidoService.buscarPedidoPorId(request.pedidoId());
         if (pedido == null) {
             throw new PedidoNotFoundException("Pedido de id: " + request.pedidoId() + " não encontrado.");
         }
 
-        if (!cliente.getClienteId().equals(pedido.getUsuarioId())) {
-            throw new IllegalArgumentException("O Cliente solicitando a entrega não é o cliente que solicitou o pedido.");
-        }
+//        if (!cliente.getClienteId().equals(pedido.getUsuarioId())) {
+//            throw new IllegalArgumentException("O Cliente solicitando a entrega não é o cliente que solicitou o pedido.");
+//        }
 
         Localizacao origem = new Localizacao(request.latOrig(), request.lngOrig());
         Localizacao destino = new Localizacao(request.latDest(), request.lngDest());
@@ -86,6 +92,10 @@ public class EntregaServiceImpl implements EntregaService {
 
         Entrega entrega = buscarEntregaPorId(entregaId);
 
+        if (!entrega.getStatus().equals(StatusEntregaEnum.PENDENTE)) {
+            throw new IllegalStateException("A entrega precisa estar com status PENDENTE para ser solicitada.");
+        }
+
         entrega.setStatus(StatusEntregaEnum.SOLICITADA);
 
         //TODO Postar mensagem no Kafka
@@ -99,7 +109,7 @@ public class EntregaServiceImpl implements EntregaService {
         List<Entregador> entregadoresDisponiveis = entregadorService.listarEntregadoresDisponiveis();
         entregadoresDisponiveis.forEach(entregador -> {
             System.out.println("Olá " + entregador.getNome() +
-                    " a entrega id: " + 1L + " foi solicitada, por favor solicitar a atribuição para realiza-la");
+                    " a entrega id: " + 1L + " foi solicitada, por favor solicitar a atribuição para realiza-la.");
         });
     }
 
@@ -108,7 +118,15 @@ public class EntregaServiceImpl implements EntregaService {
 
         Entrega entrega = buscarEntregaPorId(entregaId);
 
+        if (!entrega.getStatus().equals(StatusEntregaEnum.SOLICITADA)) {
+            throw new IllegalStateException("A entrega precisa estar com status SOLICITADA para ser atribuída.");
+        }
+
         Entregador entregador = entregadorService.buscarEntregadorPorId(entregadorId);
+
+        if (!entregador.getEstaDisponivel()) {
+            throw new IllegalStateException("O Entregador: " + entregador.getNome() + " não está disponivel para realizar a entrega.");
+        }
 
         entrega.setEntregador(entregador);
         entrega.setStatus(StatusEntregaEnum.ENVIADA);
@@ -126,6 +144,10 @@ public class EntregaServiceImpl implements EntregaService {
     public Entrega finalizarEntrega(Long entregaId) {
 
         Entrega entrega = buscarEntregaPorId(entregaId);
+
+        if (!entrega.getStatus().equals(StatusEntregaEnum.ENVIADA)) {
+            throw new IllegalStateException("A entrega precisa estar com status ENVIADA para ser finalizada.");
+        }
 
         //TODO Validar se entregador se encontra no local de destino?
 

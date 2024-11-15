@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lugar {
+public class SaidaChegadaRota {
 
-    private String type;
-    private Localizacao location;
-    private Localizacao originalLocation;
+
+    private ZonedDateTime time;
+    private LugarRota place;
+
 }

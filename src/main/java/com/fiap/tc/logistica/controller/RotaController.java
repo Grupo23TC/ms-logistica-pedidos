@@ -1,6 +1,6 @@
 package com.fiap.tc.logistica.controller;
 
-import com.fiap.tc.logistica.model.rota.Localizacao;
+import com.fiap.tc.logistica.model.rota.LocalizacaoRota;
 import com.fiap.tc.logistica.service.RotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class RotaController {
     @GetMapping
     public ResponseEntity<?> getRota(@RequestParam double latOrig, @RequestParam double lngOrig,
                                      @RequestParam double latDest, @RequestParam double lngDest) {
-        Localizacao origem = new Localizacao(latOrig, lngOrig);
-        Localizacao destino = new Localizacao(latDest, lngDest);
+        LocalizacaoRota origem = new LocalizacaoRota(latOrig, lngOrig);
+        LocalizacaoRota destino = new LocalizacaoRota(latDest, lngDest);
 
         return ResponseEntity.ok(rotaService.calcularRota(origem, destino));
     }

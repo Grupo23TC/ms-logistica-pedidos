@@ -9,15 +9,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sessao {
+public class SessaoRota {
 
     private String id;
     private String type;
-    private List<Acao> actions;
-    private SaidaChegada departure;
-    private SaidaChegada arrival;
+    private List<AcaoRota> actions;
+    private SaidaChegadaRota departure;
+    private SaidaChegadaRota arrival;
     private String polyline;
     private String language;
-    private Transporte transport;
+    private TransporteRota transport;
 
 }

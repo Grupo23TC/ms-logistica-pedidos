@@ -12,5 +12,5 @@ import java.util.List;
 public class Rota {
 
     private String id;
-    private List<Sessao> sections;
+    private List<SessaoRota> sections;
 }

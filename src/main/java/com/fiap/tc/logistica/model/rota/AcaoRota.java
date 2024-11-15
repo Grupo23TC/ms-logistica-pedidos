@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Acao {
+public class AcaoRota {
 
     private String action;
     private Integer duration;

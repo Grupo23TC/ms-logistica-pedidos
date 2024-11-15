@@ -1,6 +1,7 @@
 package com.fiap.tc.logistica.service.feign;
 
 import com.fiap.tc.logistica.config.feign.FeignConfiguration;
+import com.fiap.tc.logistica.dto.request.AtualizarRastreioRequest;
 import com.fiap.tc.logistica.dto.request.AtualizarStatusPedidoRequest;
 import com.fiap.tc.logistica.model.Pedido;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,5 +20,8 @@ public interface PedidoFeignClient {
 
     @PutMapping("/pedidos/atualizar-status/{id}")
     Pedido atualizarStatusPedido(@PathVariable("id") Long id, @RequestBody AtualizarStatusPedidoRequest status);
+
+    @PutMapping("/pedidos/atualizar-rastreio/{id}")
+    Pedido atualizarRastreioPedido(@PathVariable("id") Long id, @RequestBody AtualizarRastreioRequest body);
 
 }

@@ -4,5 +4,6 @@ public enum StatusEntregaEnum {
     PENDENTE,
     SOLICITADA,
     ENVIADA,
-    ENTREGUE
+    ENTREGUE,
+    CANCELADA
 }

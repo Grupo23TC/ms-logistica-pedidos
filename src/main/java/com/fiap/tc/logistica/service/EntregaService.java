@@ -6,11 +6,12 @@ import com.fiap.tc.logistica.model.rota.RotaResponse;
 
 public interface EntregaService {
 
-    RotaResponse calcularEntrega(CalcularEntregaRequest request);
+    RotaResponse calcularECriarEntrega(CalcularEntregaRequest request);
     Entrega solicitarEntrega(Long entregaId);
-    void notificarEntregadores();
+    void notificarEntregadores(String message);
     Entrega atribuirEntregadorAEntrega(Long entregaId, Long entregadorId);
     Entrega finalizarEntrega(Long entregaId);
     Entrega buscarEntregaPorId(Long entregaId);
+    Entrega cancelarEntrega(Long entregaId);
 
 }

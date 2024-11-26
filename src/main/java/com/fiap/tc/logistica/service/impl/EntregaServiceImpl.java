@@ -1,11 +1,10 @@
 package com.fiap.tc.logistica.service.impl;
 
-import com.fiap.tc.logistica.dto.request.AtualizarEntregadorRequest;
-import com.fiap.tc.logistica.dto.request.AtualizarRastreioRequest;
-import com.fiap.tc.logistica.dto.request.AtualizarStatusPedidoRequest;
-import com.fiap.tc.logistica.dto.request.CalcularEntregaRequest;
+import com.fiap.tc.logistica.dto.request.entregador.AtualizarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarRastreioRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarStatusPedidoRequest;
+import com.fiap.tc.logistica.dto.request.entrega.CalcularEntregaRequest;
 import com.fiap.tc.logistica.exception.EntregaNotFoundException;
-import com.fiap.tc.logistica.model.Cliente;
 import com.fiap.tc.logistica.model.Entrega;
 import com.fiap.tc.logistica.model.Entregador;
 import com.fiap.tc.logistica.model.Pedido;
@@ -15,8 +14,6 @@ import com.fiap.tc.logistica.model.rota.LocalizacaoRota;
 import com.fiap.tc.logistica.model.rota.RotaResponse;
 import com.fiap.tc.logistica.repository.EntregaRepository;
 import com.fiap.tc.logistica.service.*;
-import com.fiap.tc.logistica.service.kafka.NotificacaoEntregadorConsumer;
-import com.fiap.tc.logistica.service.kafka.NotificacaoEntregadorProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

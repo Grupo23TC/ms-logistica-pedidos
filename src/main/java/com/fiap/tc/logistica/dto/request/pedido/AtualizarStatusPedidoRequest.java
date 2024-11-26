@@ -1,4 +1,4 @@
-package com.fiap.tc.logistica.dto.request;
+package com.fiap.tc.logistica.dto.request.pedido;
 
 import com.fiap.tc.logistica.model.enums.StatusPedidoEnum;
 

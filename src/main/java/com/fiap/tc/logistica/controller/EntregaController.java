@@ -1,6 +1,6 @@
 package com.fiap.tc.logistica.controller;
 
-import com.fiap.tc.logistica.dto.request.CalcularEntregaRequest;
+import com.fiap.tc.logistica.dto.request.entrega.CalcularEntregaRequest;
 import com.fiap.tc.logistica.model.Entrega;
 import com.fiap.tc.logistica.model.rota.RotaResponse;
 import com.fiap.tc.logistica.service.EntregaService;

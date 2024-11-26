@@ -1,4 +1,4 @@
-package com.fiap.tc.logistica.dto.request;
+package com.fiap.tc.logistica.dto.request.entregador;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

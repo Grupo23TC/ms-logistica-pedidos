@@ -1,7 +1,7 @@
 package com.fiap.tc.logistica.dto.mapper;
 
 
-import com.fiap.tc.logistica.dto.request.CadastrarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.entregador.CadastrarEntregadorRequest;
 import com.fiap.tc.logistica.model.Entregador;
 
 public class EntregadorMapper {

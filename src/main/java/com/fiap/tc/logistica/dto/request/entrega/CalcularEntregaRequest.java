@@ -1,4 +1,4 @@
-package com.fiap.tc.logistica.dto.request;
+package com.fiap.tc.logistica.dto.request.entrega;
 
 public record CalcularEntregaRequest(
         Long pedidoId,

@@ -1,8 +1,8 @@
 package com.fiap.tc.logistica.service.feign;
 
 import com.fiap.tc.logistica.config.feign.FeignConfiguration;
-import com.fiap.tc.logistica.dto.request.AtualizarRastreioRequest;
-import com.fiap.tc.logistica.dto.request.AtualizarStatusPedidoRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarRastreioRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarStatusPedidoRequest;
 import com.fiap.tc.logistica.model.Pedido;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

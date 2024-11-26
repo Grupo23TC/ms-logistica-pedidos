@@ -1,7 +1,7 @@
 package com.fiap.tc.logistica.service.impl;
 
-import com.fiap.tc.logistica.dto.request.AtualizarRastreioRequest;
-import com.fiap.tc.logistica.dto.request.AtualizarStatusPedidoRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarRastreioRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarStatusPedidoRequest;
 import com.fiap.tc.logistica.exception.PedidoNotFoundException;
 import com.fiap.tc.logistica.model.Pedido;
 import com.fiap.tc.logistica.service.PedidoService;

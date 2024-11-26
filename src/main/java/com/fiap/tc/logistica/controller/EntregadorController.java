@@ -1,7 +1,7 @@
 package com.fiap.tc.logistica.controller;
 
-import com.fiap.tc.logistica.dto.request.AtualizarEntregadorRequest;
-import com.fiap.tc.logistica.dto.request.CadastrarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.entregador.AtualizarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.entregador.CadastrarEntregadorRequest;
 import com.fiap.tc.logistica.model.Entregador;
 import com.fiap.tc.logistica.service.EntregadorService;
 import jakarta.validation.Valid;

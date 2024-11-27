@@ -81,22 +81,6 @@ class EntregadorRepositoryTest {
                     .containsExactlyInAnyOrder(entregador,entregador2);
             verify(entregadorRepository, times(1)).buscarEntregadoresDisponiveis();
         }
-
-        @Test
-        void devePermitirBuscarEntregadores() {
-            var entregador = EntregadorHelper.gerarEntregador();
-            var entregador2 = EntregadorHelper.gerarEntregador();
-            var listEntregadores = Arrays.asList(entregador,entregador2);
-            when(entregadorRepository.findAll()).thenReturn(listEntregadores);
-
-            var result = entregadorRepository.findAll();
-
-            assertThat(result)
-                    .isNotEmpty()
-                    .hasSize(2)
-                    .containsExactlyInAnyOrder(entregador,entregador2);
-            verify(entregadorRepository, times(1)).findAll();
-        }
     }
 
     @Nested

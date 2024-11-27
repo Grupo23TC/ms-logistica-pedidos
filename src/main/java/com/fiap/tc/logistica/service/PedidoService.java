@@ -10,5 +10,5 @@ public interface PedidoService {
 
     Pedido atualizarStatusPedido(Long id, AtualizarStatusPedidoRequest request);
 
-    void atualizarRastreioPedido(Long idPedido, AtualizarRastreioRequest rastreioRequest);
+    Pedido atualizarRastreioPedido(Long idPedido, AtualizarRastreioRequest rastreioRequest);
 }

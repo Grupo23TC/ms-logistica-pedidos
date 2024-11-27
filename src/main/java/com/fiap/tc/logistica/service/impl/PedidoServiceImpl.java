@@ -32,11 +32,27 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido atualizarStatusPedido(Long id, AtualizarStatusPedidoRequest request) {
-        return pedidoFeignClient.atualizarStatusPedido(id, request);
+        try {
+            return pedidoFeignClient.atualizarStatusPedido(id, request);
+        } catch (FeignException e) {
+            if (e.status() == HttpStatus.NOT_FOUND.value()) {
+                throw new PedidoNotFoundException("Pedido de id: " + id + " não encontrado.");
+            } else {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
     }
 
     @Override
-    public void atualizarRastreioPedido(Long idPedido, AtualizarRastreioRequest rastreioRequest) {
-        pedidoFeignClient.atualizarRastreioPedido(idPedido, rastreioRequest);
+    public Pedido atualizarRastreioPedido(Long id, AtualizarRastreioRequest rastreioRequest) {
+        try {
+            return pedidoFeignClient.atualizarRastreioPedido(id, rastreioRequest);
+        } catch (FeignException e) {
+            if (e.status() == HttpStatus.NOT_FOUND.value()) {
+                throw new PedidoNotFoundException("Pedido de id: " + id + " não encontrado.");
+            } else {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
     }
 }

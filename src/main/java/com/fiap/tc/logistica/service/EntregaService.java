@@ -8,7 +8,6 @@ public interface EntregaService {
 
     RotaResponse calcularECriarEntrega(CalcularEntregaRequest request);
     Entrega solicitarEntrega(Long entregaId);
-    void notificarEntregadores(String message);
     Entrega atribuirEntregadorAEntrega(Long entregaId, Long entregadorId);
     Entrega finalizarEntrega(Long entregaId);
     Entrega buscarEntregaPorId(Long entregaId);

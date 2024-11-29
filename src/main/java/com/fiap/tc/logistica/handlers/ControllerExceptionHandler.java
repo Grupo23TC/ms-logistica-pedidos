@@ -29,22 +29,6 @@ public class ControllerExceptionHandler {
     return ResponseEntity.status(status).body(erroCustomizado);
   }
 
-  @ExceptionHandler(ClienteNotFoundException.class)
-  public ResponseEntity<ErroCustomizado> handleClienteNotFoundException(
-          ClienteNotFoundException ex,
-      HttpServletRequest request
-  ) {
-    HttpStatus status  = HttpStatus.NOT_FOUND;
-    ErroCustomizado erroCustomizado = new ErroCustomizado(
-        ex.getMessage(),
-        Instant.now(),
-        request.getRequestURI(),
-        status.value()
-    );
-
-    return ResponseEntity.status(status).body(erroCustomizado);
-  }
-
   @ExceptionHandler(EntregadorNotFoundException.class)
   public ResponseEntity<ErroCustomizado> handleEntregadorNotFoundException(
           EntregadorNotFoundException ex,

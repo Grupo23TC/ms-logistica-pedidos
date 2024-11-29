@@ -8,7 +8,7 @@ public class EntregadorHelper {
 
     public static Entregador gerarEntregador() {
         Entregador entregador = new Entregador();
-        entregador.setNome("Entregador");
+        entregador.setNome("Entregador Teste");
         entregador.setEmail("entregador@gmail.com");
         entregador.setCpf("570.706.520-20");
         entregador.setTelefone("(11) 99999-9999");

@@ -16,4 +16,12 @@ public class AcaoRota {
     private Integer offset;
     private String direction;
     private String severity;
+
+    public AcaoRota(String depart, int duration, int length, String instruction, int offset) {
+        this.action = depart;
+        this.duration = duration;
+        this.length = length;
+        this.instruction = instruction;
+        this.offset = offset;
+    }
 }

@@ -72,7 +72,7 @@ public class EntregaRepositoryIT {
 
         @Test
         void devePermitirBuscarPorPedidoEStatusNot() {
-            var result = entregaRepository.findByPedidoIdAndStatusNot(1L, StatusEntregaEnum.CANCELADA);
+            var result = entregaRepository.findByPedidoIdAndStatusNot(2L, StatusEntregaEnum.CANCELADA);
 
             assertThat(result)
                     .isNotEmpty()

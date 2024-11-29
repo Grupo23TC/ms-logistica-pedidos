@@ -15,7 +15,6 @@ import com.fiap.tc.logistica.model.rota.RotaResponse;
 import com.fiap.tc.logistica.repository.EntregaRepository;
 import com.fiap.tc.logistica.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -36,14 +35,6 @@ public class EntregaServiceImpl implements EntregaService {
     @Autowired
     private PedidoService pedidoService;
 
-    @Autowired
-    private ClienteService clienteService;
-
-//    @Autowired
-//    private NotificacaoEntregadorProducer producer;
-//
-//    @Autowired
-//    private NotificacaoEntregadorConsumer consumer;
 
     @Override
     public RotaResponse calcularECriarEntrega(CalcularEntregaRequest request) {
@@ -54,13 +45,7 @@ public class EntregaServiceImpl implements EntregaService {
             throw new IllegalStateException("Já existe uma entrega com esse pedido");
         }
 
-//        Cliente cliente = clienteService.buscarClientePorId(request.clientId());
-
         Pedido pedido = pedidoService.buscarPedidoPorId(request.pedidoId());
-
-//        if (!cliente.getClienteId().equals(pedido.getUsuarioId())) {
-//            throw new IllegalArgumentException("O Cliente solicitando a entrega não é o cliente que solicitou o pedido.");
-//        }
 
         LocalizacaoRota origem = new LocalizacaoRota(request.latOrig(), request.lngOrig());
         LocalizacaoRota destino = new LocalizacaoRota(request.latDest(), request.lngDest());
@@ -91,22 +76,17 @@ public class EntregaServiceImpl implements EntregaService {
         }
 
         entrega.setStatus(StatusEntregaEnum.SOLICITADA);
-
-//        producer.sendMessage("teste");
+        notificarEntregadores(entregaId);
 
         return entregaRepository.save(entrega);
     }
 
-    @Override
-//    @KafkaListener(topics = "${spring.kafka.topic}", groupId = "${spring.kafka.group}")
-    public void notificarEntregadores(String message) {
-
-        System.out.println("Received message: " + message);
+    private void notificarEntregadores(Long id) {
 
         List<Entregador> entregadoresDisponiveis = entregadorService.listarEntregadoresDisponiveis();
         entregadoresDisponiveis.forEach(entregador -> {
             System.out.println("Olá " + entregador.getNome() +
-                    " a entrega id: " + 1L + " foi solicitada, por favor solicitar a atribuição para realiza-la.");
+                    " a entrega id: " + id + " foi solicitada, por favor solicitar a atribuição para realiza-la.");
         });
     }
 
@@ -149,8 +129,6 @@ public class EntregaServiceImpl implements EntregaService {
             throw new IllegalStateException("A entrega precisa estar com status ENVIADA para ser finalizada.");
         }
 
-        //TODO Validar se entregador se encontra no local de destino?
-
         AtualizarEntregadorRequest atualizarEntregadorRequest = new AtualizarEntregadorRequest(true);
         entregadorService.atualizarStatusEntregador(entrega.getEntregador().getEntregadorId(), atualizarEntregadorRequest);
 
@@ -187,8 +165,8 @@ public class EntregaServiceImpl implements EntregaService {
     }
 
     @Override
-    public Entrega buscarEntregaPorId(Long entregaId) {
-        return entregaRepository.findById(entregaId)
-                .orElseThrow(() -> new EntregaNotFoundException("Entrega de id: " + entregaId + " não encontrada."));
+    public Entrega buscarEntregaPorId(Long id) {
+        return entregaRepository.findById(id)
+                .orElseThrow(() -> new EntregaNotFoundException("Entrega de id: " + id + " não encontrada."));
     }
 }

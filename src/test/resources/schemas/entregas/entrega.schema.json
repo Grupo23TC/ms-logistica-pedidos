@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "required": [
+    "entregaId",
+    "pedidoId",
+    "entregador",
+    "status",
+    "inicioEstimado",
+    "fimEstimado"
+  ],
+  "properties": {
+    "entregaId": {
+      "type": "integer"
+    },
+    "pedidoId": {
+      "type": "integer"
+    },
+    "entregador": {
+      "type": "object",
+      "required": [
+        "entregadorId",
+        "nome",
+        "cpf",
+        "email",
+        "telefone",
+        "estaDisponivel"
+      ],
+      "properties": {
+        "entregadorId": {
+          "type": "integer"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "telefone": {
+          "type": "string"
+        },
+        "estaDisponivel": {
+          "type": "boolean"
+        }
+      }
+    },
+    "status": {
+      "type": "string"
+    },
+    "inicioEstimado": {
+      "type": "string"
+    },
+    "fimEstimado": {
+      "type": "string"
+    }
+  }
+}

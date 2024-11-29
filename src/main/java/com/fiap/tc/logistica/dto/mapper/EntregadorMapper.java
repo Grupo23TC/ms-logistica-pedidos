@@ -6,6 +6,9 @@ import com.fiap.tc.logistica.model.Entregador;
 
 public class EntregadorMapper {
 
+    private EntregadorMapper() {
+    }
+
     public static Entregador toEntregador(CadastrarEntregadorRequest request) {
         Entregador entregador = new Entregador();
         entregador.setCpf(request.cpf());

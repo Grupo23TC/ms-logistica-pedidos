@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class RotaServiceImpl implements RotaService {
 
     @Autowired

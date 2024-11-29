@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/entregadores")
+@SuppressWarnings("squid:S6813")
 public class EntregadorController {
 
     @Autowired

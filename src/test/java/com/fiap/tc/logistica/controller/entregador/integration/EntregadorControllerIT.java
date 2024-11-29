@@ -48,7 +48,7 @@ public class EntregadorControllerIT {
     class BuscarEntregador {
 
         @Test
-        void devePermitirBuscarEntregadorPorId() throws Exception {
+        void devePermitirBuscarEntregadorPorId() {
             var id = 1L;
             given()
 
@@ -72,7 +72,7 @@ public class EntregadorControllerIT {
         }
 
         @Test
-        void devePermitirListarEntregadoresDisponiveis() throws Exception {
+        void devePermitirListarEntregadoresDisponiveis() {
             given()
 
                     .when()
@@ -87,7 +87,7 @@ public class EntregadorControllerIT {
     class AtualizarEntregador {
 
         @Test
-        void devePermitirAtualizarStatusEntregador() throws Exception {
+        void devePermitirAtualizarStatusEntregador() {
             var id = 1L;
             var request = EntregadorHelper.gerarAtualizarEntregadorRequest();
             given()
@@ -101,7 +101,7 @@ public class EntregadorControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtualizarEntregador_IdNaoEncontrado () throws Exception {
+        void deveGerarExcecao_QuandoAtualizarEntregador_IdNaoEncontrado () {
             var id = 1000000L;
             var request = EntregadorHelper.gerarAtualizarEntregadorRequest();
             given()
@@ -119,7 +119,7 @@ public class EntregadorControllerIT {
     class DeletarEntregador {
 
         @Test
-        void devePermitirDeletarEntregador() throws Exception {
+        void devePermitirDeletarEntregador() {
             var id = 1L;
 
             given()
@@ -132,7 +132,7 @@ public class EntregadorControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoRemoverEntregador_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoRemoverEntregador_IdNaoEncontrado() {
             var id = 1000000L;
             given()
                     .when()

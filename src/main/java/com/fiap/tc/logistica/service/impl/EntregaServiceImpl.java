@@ -7,7 +7,6 @@ import com.fiap.tc.logistica.dto.request.entrega.CalcularEntregaRequest;
 import com.fiap.tc.logistica.exception.EntregaNotFoundException;
 import com.fiap.tc.logistica.model.Entrega;
 import com.fiap.tc.logistica.model.Entregador;
-import com.fiap.tc.logistica.model.Pedido;
 import com.fiap.tc.logistica.model.enums.StatusEntregaEnum;
 import com.fiap.tc.logistica.model.enums.StatusPedidoEnum;
 import com.fiap.tc.logistica.model.rota.LocalizacaoRota;
@@ -19,8 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class EntregaServiceImpl implements EntregaService {
 
     @Autowired
@@ -35,6 +36,8 @@ public class EntregaServiceImpl implements EntregaService {
     @Autowired
     private PedidoService pedidoService;
 
+    Logger logger = Logger.getLogger(getClass().getName());
+
 
     @Override
     public RotaResponse calcularECriarEntrega(CalcularEntregaRequest request) {
@@ -45,7 +48,7 @@ public class EntregaServiceImpl implements EntregaService {
             throw new IllegalStateException("Já existe uma entrega com esse pedido");
         }
 
-        Pedido pedido = pedidoService.buscarPedidoPorId(request.pedidoId());
+        pedidoService.buscarPedidoPorId(request.pedidoId());
 
         LocalizacaoRota origem = new LocalizacaoRota(request.latOrig(), request.lngOrig());
         LocalizacaoRota destino = new LocalizacaoRota(request.latDest(), request.lngDest());
@@ -84,10 +87,10 @@ public class EntregaServiceImpl implements EntregaService {
     private void notificarEntregadores(Long id) {
 
         List<Entregador> entregadoresDisponiveis = entregadorService.listarEntregadoresDisponiveis();
-        entregadoresDisponiveis.forEach(entregador -> {
-            System.out.println("Olá " + entregador.getNome() +
-                    " a entrega id: " + id + " foi solicitada, por favor solicitar a atribuição para realiza-la.");
-        });
+        entregadoresDisponiveis.forEach(entregador ->
+            logger.info("Olá " + entregador.getNome() +
+                    " a entrega id: " + id + " foi solicitada, por favor solicitar a atribuição para realiza-la.")
+        );
     }
 
     @Override
@@ -101,7 +104,7 @@ public class EntregaServiceImpl implements EntregaService {
 
         Entregador entregador = entregadorService.buscarEntregadorPorId(entregadorId);
 
-        if (!entregador.getEstaDisponivel()) {
+        if (Boolean.FALSE.equals(entregador.getEstaDisponivel())) {
             throw new IllegalStateException("O Entregador: " + entregador.getNome() + " não está disponivel para realizar a entrega.");
         }
 

@@ -30,7 +30,7 @@ public class EntregaControllerIT {
     class BuscarEntrega {
 
         @Test
-        void devePermitirBuscarEntregaPorId() throws Exception {
+        void devePermitirBuscarEntregaPorId() {
 
             var id = 1L;
 
@@ -43,7 +43,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoBuscarEntregaPorId_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoBuscarEntregaPorId_IdNaoEncontrado() {
             var id = 10000L;
             given()
                     .when()
@@ -58,7 +58,7 @@ public class EntregaControllerIT {
     class CalcularRotaECriarEntrega {
 
         @Test
-        void devePermitirCalcularRotaECriarEntrega() throws Exception {
+        void devePermitirCalcularRotaECriarEntrega() {
             var request = EntregaHelper.gerarCalcularEntregaRequest();
             given()
                     .contentType("application/json")
@@ -71,7 +71,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_JaExisteEntregaPedido() throws Exception {
+        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_JaExisteEntregaPedido() {
             var request = EntregaHelper.gerarCalcularEntregaRequestEntregaJaExistente();
             given()
                     .contentType("application/json")
@@ -84,7 +84,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_PedidoNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_PedidoNaoEncontrado() {
             var request = EntregaHelper.gerarCalcularEntregaRequestPedidoNaoExistente();
             given()
                     .contentType("application/json")
@@ -97,7 +97,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_RotaNaoEncontrada() throws Exception {
+        void deveGerarExcecao_QuandoCalcularRotaECriarEntrega_RotaNaoEncontrada() {
             var request = EntregaHelper.gerarCalcularEntregaRequestRotaNaoExistente();
             given()
                     .contentType("application/json")
@@ -114,7 +114,7 @@ public class EntregaControllerIT {
     class SolicitarEntrega {
 
         @Test
-        void devePermitirSolicitarEntrega() throws Exception {
+        void devePermitirSolicitarEntrega() {
             var id = 1L;
             given()
                     .when()
@@ -125,7 +125,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoSolicitarEntrega_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoSolicitarEntrega_IdNaoEncontrado() {
             var id = 100000L;
             given()
                     .when()
@@ -136,7 +136,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoSolicitarEntrega_StatusNaoPendente() throws Exception {
+        void deveGerarExcecao_QuandoSolicitarEntrega_StatusNaoPendente() {
             var id = 2L;
             given()
                     .when()
@@ -152,7 +152,7 @@ public class EntregaControllerIT {
     class AtribuirEntregadorParaEntrega {
 
         @Test
-        void devePermitirAtribuirEntregadorParaEntrega() throws Exception {
+        void devePermitirAtribuirEntregadorParaEntrega() {
             var id = 2L;
             given()
                     .when()
@@ -163,7 +163,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_IdNaoEncontrado() {
             var id = 10000L;
             given()
                     .when()
@@ -174,7 +174,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_StatusNaoSolicitada() throws Exception {
+        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_StatusNaoSolicitada() {
             var id = 5L;
             given()
                     .when()
@@ -185,7 +185,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_EntregadorNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_EntregadorNaoEncontrado() {
             var id = 6L;
             var entregadorId = 100000l;
             given()
@@ -197,7 +197,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_EntregadorNaoDisponivel() throws Exception {
+        void deveGerarExcecao_QuandoAtribuirEntregadorParaEntrega_EntregadorNaoDisponivel() {
             var id = 6L;
             var entregadorId = 3l;
             given()
@@ -214,7 +214,7 @@ public class EntregaControllerIT {
     class FinalizarEntrega {
 
         @Test
-        void devePermitirFinalizarEntrega() throws Exception {
+        void devePermitirFinalizarEntrega() {
             var id = 3L;
             given()
                     .when()
@@ -225,7 +225,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoFinalizarEntrega_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoFinalizarEntrega_IdNaoEncontrado() {
             var id = 100000l;
             given()
                     .when()
@@ -236,7 +236,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoFinalizarEntrega_StatusNaoEnviada() throws Exception {
+        void deveGerarExcecao_QuandoFinalizarEntrega_StatusNaoEnviada() {
             var id = 5L;
             given()
                     .when()
@@ -252,7 +252,7 @@ public class EntregaControllerIT {
     class CancelarEntrega {
 
         @Test
-        void devePermitirCancelarEntrega() throws Exception {
+        void devePermitirCancelarEntrega() {
             var id = 7L;
             given()
                     .when()
@@ -263,7 +263,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoCancelarEntrega_IdNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoCancelarEntrega_IdNaoEncontrado() {
             var id = 10000000L;
             given()
                     .when()
@@ -274,7 +274,7 @@ public class EntregaControllerIT {
         }
 
         @Test
-        void deveGerarExcecao_QuandoCancelarEntrega_StatusEntregue() throws Exception {
+        void deveGerarExcecao_QuandoCancelarEntrega_StatusEntregue() {
             var id = 4L;
             given()
                     .when()

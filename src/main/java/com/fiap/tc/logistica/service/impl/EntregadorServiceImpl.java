@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class EntregadorServiceImpl implements EntregadorService {
 
     @Autowired

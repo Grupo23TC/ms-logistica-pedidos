@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-public class EntregadorRepositoryIT {
+class EntregadorRepositoryIT {
 
     @Autowired
     private EntregadorRepository entregadorRepository;

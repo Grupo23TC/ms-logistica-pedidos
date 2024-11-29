@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class PedidoServiceImpl implements PedidoService {
 
     @Autowired

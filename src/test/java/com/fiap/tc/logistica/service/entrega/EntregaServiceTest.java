@@ -168,7 +168,6 @@ public class EntregaServiceTest {
             var pedido = PedidoHelper.gerarPedido();
             when(pedidoService.buscarPedidoPorId(anyLong())).thenReturn(pedido);
 
-            var rota = RotaHelper.gerarRotaResponseComplete();
             when(rotaService.calcularRota(any(LocalizacaoRota.class), any(LocalizacaoRota.class)))
                     .thenThrow(new RotaNotFoundException(message));
 

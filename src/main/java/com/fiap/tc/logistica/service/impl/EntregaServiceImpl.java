@@ -1,19 +1,15 @@
 package com.fiap.tc.logistica.service.impl;
 
-import com.fiap.tc.logistica.dto.request.AtualizarEntregadorRequest;
-import com.fiap.tc.logistica.dto.request.AtualizarStatusPedidoRequest;
-import com.fiap.tc.logistica.dto.request.CalcularEntregaRequest;
-import com.fiap.tc.logistica.exception.ClienteNotFoundException;
+import com.fiap.tc.logistica.dto.request.entregador.AtualizarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarRastreioRequest;
+import com.fiap.tc.logistica.dto.request.pedido.AtualizarStatusPedidoRequest;
+import com.fiap.tc.logistica.dto.request.entrega.CalcularEntregaRequest;
 import com.fiap.tc.logistica.exception.EntregaNotFoundException;
-import com.fiap.tc.logistica.exception.PedidoNotFoundException;
-import com.fiap.tc.logistica.exception.RotaNotFoundException;
-import com.fiap.tc.logistica.model.Cliente;
 import com.fiap.tc.logistica.model.Entrega;
 import com.fiap.tc.logistica.model.Entregador;
-import com.fiap.tc.logistica.model.Pedido;
 import com.fiap.tc.logistica.model.enums.StatusEntregaEnum;
 import com.fiap.tc.logistica.model.enums.StatusPedidoEnum;
-import com.fiap.tc.logistica.model.rota.Localizacao;
+import com.fiap.tc.logistica.model.rota.LocalizacaoRota;
 import com.fiap.tc.logistica.model.rota.RotaResponse;
 import com.fiap.tc.logistica.repository.EntregaRepository;
 import com.fiap.tc.logistica.service.*;
@@ -22,8 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class EntregaServiceImpl implements EntregaService {
 
     @Autowired
@@ -38,40 +36,24 @@ public class EntregaServiceImpl implements EntregaService {
     @Autowired
     private PedidoService pedidoService;
 
-    @Autowired
-    private ClienteService clienteService;
+    Logger logger = Logger.getLogger(getClass().getName());
+
 
     @Override
-    public RotaResponse calcularEntrega(CalcularEntregaRequest request) {
+    public RotaResponse calcularECriarEntrega(CalcularEntregaRequest request) {
 
-        List<Entrega> entregaPorPedido = entregaRepository.findByPedidoId(request.pedidoId());
+        List<Entrega> entregaPorPedido = entregaRepository.findByPedidoIdAndStatusNot(request.pedidoId(), StatusEntregaEnum.CANCELADA);
 
         if (!entregaPorPedido.isEmpty()) {
             throw new IllegalStateException("Já existe uma entrega com esse pedido");
         }
 
-//        Cliente cliente = clienteService.buscarClientePorId(request.clientId());
-//        if (cliente == null) {
-//            throw new ClienteNotFoundException("Cliente de id: " + request.clientId() + " não encontrado.");
-//        }
+        pedidoService.buscarPedidoPorId(request.pedidoId());
 
-        Pedido pedido = pedidoService.buscarPedidoPorId(request.pedidoId());
-        if (pedido == null) {
-            throw new PedidoNotFoundException("Pedido de id: " + request.pedidoId() + " não encontrado.");
-        }
-
-//        if (!cliente.getClienteId().equals(pedido.getUsuarioId())) {
-//            throw new IllegalArgumentException("O Cliente solicitando a entrega não é o cliente que solicitou o pedido.");
-//        }
-
-        Localizacao origem = new Localizacao(request.latOrig(), request.lngOrig());
-        Localizacao destino = new Localizacao(request.latDest(), request.lngDest());
+        LocalizacaoRota origem = new LocalizacaoRota(request.latOrig(), request.lngOrig());
+        LocalizacaoRota destino = new LocalizacaoRota(request.latDest(), request.lngDest());
 
         RotaResponse rotaResponse = rotaService.calcularRota(origem, destino);
-
-        if (rotaResponse == null || rotaResponse.getRoutes() == null || rotaResponse.getRoutes().isEmpty()) {
-            throw new RotaNotFoundException("Não foi possível calcular rota, revise as coordenadas.");
-        }
 
         ZonedDateTime inicioEstimado = rotaResponse.getRoutes().getFirst().getSections().getFirst().getDeparture().getTime();
         ZonedDateTime fimEstimado = rotaResponse.getRoutes().getFirst().getSections().getFirst().getArrival().getTime();
@@ -97,20 +79,18 @@ public class EntregaServiceImpl implements EntregaService {
         }
 
         entrega.setStatus(StatusEntregaEnum.SOLICITADA);
-
-        //TODO Postar mensagem no Kafka
+        notificarEntregadores(entregaId);
 
         return entregaRepository.save(entrega);
     }
 
-    @Override
-    public void notificarEntregadores() {
-        //TODO Consumir mensagem no Kafka
+    private void notificarEntregadores(Long id) {
+
         List<Entregador> entregadoresDisponiveis = entregadorService.listarEntregadoresDisponiveis();
-        entregadoresDisponiveis.forEach(entregador -> {
-            System.out.println("Olá " + entregador.getNome() +
-                    " a entrega id: " + 1L + " foi solicitada, por favor solicitar a atribuição para realiza-la.");
-        });
+        entregadoresDisponiveis.forEach(entregador ->
+            logger.info("Olá " + entregador.getNome() +
+                    " a entrega id: " + id + " foi solicitada, por favor solicitar a atribuição para realiza-la.")
+        );
     }
 
     @Override
@@ -124,7 +104,7 @@ public class EntregaServiceImpl implements EntregaService {
 
         Entregador entregador = entregadorService.buscarEntregadorPorId(entregadorId);
 
-        if (!entregador.getEstaDisponivel()) {
+        if (Boolean.FALSE.equals(entregador.getEstaDisponivel())) {
             throw new IllegalStateException("O Entregador: " + entregador.getNome() + " não está disponivel para realizar a entrega.");
         }
 
@@ -136,6 +116,9 @@ public class EntregaServiceImpl implements EntregaService {
 
         AtualizarStatusPedidoRequest atualizarStatusPedidoRequest = new AtualizarStatusPedidoRequest(StatusPedidoEnum.ENVIADO);
         pedidoService.atualizarStatusPedido(entrega.getPedidoId(), atualizarStatusPedidoRequest);
+
+        AtualizarRastreioRequest rastreioRequest = new AtualizarRastreioRequest(entregaId);
+        pedidoService.atualizarRastreioPedido(entrega.getPedidoId(), rastreioRequest);
 
         return entregaRepository.save(entrega);
     }
@@ -149,8 +132,6 @@ public class EntregaServiceImpl implements EntregaService {
             throw new IllegalStateException("A entrega precisa estar com status ENVIADA para ser finalizada.");
         }
 
-        //TODO Validar se entregador se encontra no local de destino?
-
         AtualizarEntregadorRequest atualizarEntregadorRequest = new AtualizarEntregadorRequest(true);
         entregadorService.atualizarStatusEntregador(entrega.getEntregador().getEntregadorId(), atualizarEntregadorRequest);
 
@@ -160,8 +141,35 @@ public class EntregaServiceImpl implements EntregaService {
     }
 
     @Override
-    public Entrega buscarEntregaPorId(Long entregaId) {
-        return entregaRepository.findById(entregaId)
-                .orElseThrow(() -> new EntregaNotFoundException("Entrega de id: " + entregaId + " não encontrada."));
+    public Entrega cancelarEntrega(Long entregaId) {
+
+        Entrega entrega = buscarEntregaPorId(entregaId);
+
+        if (entrega.getStatus().equals(StatusEntregaEnum.ENTREGUE)) {
+            throw new IllegalStateException("Você não pode cancelar uma entrega já finalizada.");
+        }
+
+        if (entrega.getEntregador() != null && !entrega.getEntregador().getEstaDisponivel()) {
+            AtualizarEntregadorRequest atualizarEntregadorRequest = new AtualizarEntregadorRequest(true);
+            entregadorService.atualizarStatusEntregador(entrega.getEntregador().getEntregadorId(), atualizarEntregadorRequest);
+        }
+
+        if (StatusEntregaEnum.ENVIADA.equals(entrega.getStatus())) {
+            AtualizarStatusPedidoRequest atualizarStatusPedidoRequest = new AtualizarStatusPedidoRequest(StatusPedidoEnum.CRIADO);
+            pedidoService.atualizarStatusPedido(entrega.getPedidoId(), atualizarStatusPedidoRequest);
+
+            AtualizarRastreioRequest rastreioRequest = new AtualizarRastreioRequest(null);
+            pedidoService.atualizarRastreioPedido(entrega.getPedidoId(), rastreioRequest);
+        }
+
+        entrega.setStatus(StatusEntregaEnum.CANCELADA);
+
+        return entregaRepository.save(entrega);
+    }
+
+    @Override
+    public Entrega buscarEntregaPorId(Long id) {
+        return entregaRepository.findById(id)
+                .orElseThrow(() -> new EntregaNotFoundException("Entrega de id: " + id + " não encontrada."));
     }
 }

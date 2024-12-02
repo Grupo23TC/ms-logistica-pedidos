@@ -1,7 +1,6 @@
 package com.fiap.tc.logistica.controller;
 
-import com.fiap.tc.logistica.dto.request.CadastrarEntregadorRequest;
-import com.fiap.tc.logistica.dto.request.CalcularEntregaRequest;
+import com.fiap.tc.logistica.dto.request.entrega.CalcularEntregaRequest;
 import com.fiap.tc.logistica.model.Entrega;
 import com.fiap.tc.logistica.model.rota.RotaResponse;
 import com.fiap.tc.logistica.service.EntregaService;
@@ -12,17 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/entregas")
+@SuppressWarnings("squid:S6813")
 public class EntregaController {
 
     @Autowired
     private EntregaService entregaService;
 
-    @PostMapping("/calcularEntrega")
-    public ResponseEntity<RotaResponse> calcularEntrega(@RequestBody CalcularEntregaRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(entregaService.calcularEntrega(request));
+    @PostMapping("/calcularECriar")
+    public ResponseEntity<RotaResponse> calcularECriarEntrega(@RequestBody CalcularEntregaRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(entregaService.calcularECriarEntrega(request));
     }
 
-    @PutMapping("/solicitarEntrega/{id}")
+    @PutMapping("/solicitar/{id}")
     public ResponseEntity<Entrega> solicitarEntrega(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(entregaService.solicitarEntrega(id));
     }
@@ -32,9 +32,14 @@ public class EntregaController {
         return ResponseEntity.status(HttpStatus.OK).body(entregaService.atribuirEntregadorAEntrega(entregaId, entregadorId));
     }
 
-    @PutMapping("/finalizarEntrega/{id}")
+    @PutMapping("/finalizar/{id}")
     public ResponseEntity<Entrega> finalizarEntrega(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(entregaService.finalizarEntrega(id));
+    }
+
+    @PutMapping("/cancelar/{id}")
+    public ResponseEntity<Entrega> cancelarEntrega(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(entregaService.cancelarEntrega(id));
     }
 
     @GetMapping("/{id}")

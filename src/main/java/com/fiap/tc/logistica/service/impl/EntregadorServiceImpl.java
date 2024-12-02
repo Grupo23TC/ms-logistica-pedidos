@@ -1,8 +1,8 @@
 package com.fiap.tc.logistica.service.impl;
 
 import com.fiap.tc.logistica.dto.mapper.EntregadorMapper;
-import com.fiap.tc.logistica.dto.request.AtualizarEntregadorRequest;
-import com.fiap.tc.logistica.dto.request.CadastrarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.entregador.AtualizarEntregadorRequest;
+import com.fiap.tc.logistica.dto.request.entregador.CadastrarEntregadorRequest;
 import com.fiap.tc.logistica.exception.EntregadorNotFoundException;
 import com.fiap.tc.logistica.model.Entregador;
 import com.fiap.tc.logistica.repository.EntregadorRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@SuppressWarnings("squid:S6813")
 public class EntregadorServiceImpl implements EntregadorService {
 
     @Autowired

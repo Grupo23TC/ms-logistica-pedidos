@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/rota.schema.json",
+  "type": "object",
+  "properties": {
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "sections"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "type", "actions", "departure", "arrival"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "actions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["action", "duration", "length", "instruction", "offset"],
+                    "properties": {
+                      "action": {
+                        "type": "string"
+                      },
+                      "duration": {
+                        "type": "integer"
+                      },
+                      "length": {
+                        "type": "integer"
+                      },
+                      "instruction": {
+                        "type": "string"
+                      },
+                      "offset": {
+                        "type": "integer"
+                      },
+                      "direction": {
+                        "type": ["string", "null"]
+                      },
+                      "severity": {
+                        "type": ["string", "null"]
+                      }
+                    }
+                  }
+                },
+                "departure": {
+                  "type": "object",
+                  "required": ["time", "place"],
+                  "properties": {
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "place": {
+                      "type": "object",
+                      "required": ["type", "location"],
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "object",
+                          "required": ["lat", "lng"],
+                          "properties": {
+                            "lat": {
+                              "type": "number"
+                            },
+                            "lng": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "originalLocation": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number"
+                            },
+                            "lng": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "arrival": {
+                  "type": "object",
+                  "required": ["time", "place"],
+                  "properties": {
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "place": {
+                      "type": "object",
+                      "required": ["type", "location"],
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "object",
+                          "required": ["lat", "lng"],
+                          "properties": {
+                            "lat": {
+                              "type": "number"
+                            },
+                            "lng": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "originalLocation": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number"
+                            },
+                            "lng": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "polyline": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "transport": {
+                  "type": "object",
+                  "required": ["mode"],
+                  "properties": {
+                    "mode": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -89,9 +89,9 @@ unitários e de integração.
 
 Para rodar o projeto localmente, precisamos do [Docker Hub](https://www.docker.com/) instalado. 
 Como temos uma integração com o projeto de [ms-gestao-pedidos](https://github.com/Grupo23TC/ms-gestao-pedidos),
-precisamos primeiro buildar uma imagem ms-gestao-pedidos:dev, acesse o projeto e rode o comando: <b><i>"docker build -t ms-gestao-pedidos:dev ."</i></b>
-, a partir disso, vamos rodar o comando: <b><i>"docker-compose up"</i></b>
-Confira em seu Docker Desktop a subida do container e suas respectivas aplicações e bancos de dados isolados.
+precisamos do container ms-gestao-pedidos:dev rodando, acesse o projeto e rode o comando: <b><i>"docker-compose up"</i></b>
+, a partir disso, vamos rodar o mesmo comando: <b><i>"docker-compose up"</i></b> para subir nosso projeto.
+Confira em seu Docker Desktop a subida dos containers e suas respectivas aplicações e bancos de dados isolados.
 
 ## Desenvolvedores
 

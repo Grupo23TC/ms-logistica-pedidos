@@ -87,9 +87,18 @@ unitários e de integração.
 
 ## Guia de implantação
 
-Para rodar o projeto localmente, precisamos do [Docker Hub](https://www.docker.com/) instalado. 
+Para rodar o projeto localmente, precisamos do [Docker Hub](https://www.docker.com/) instalado.
+Antes de iniciar o projeto, devemos ter a seguinte rede no docker:
+PS: caso você já tenha criado, não precisa criá-la novamente.
+
+```bash
+docker network create shared_network
+```
 Como temos uma integração com o projeto de [ms-gestao-pedidos](https://github.com/Grupo23TC/ms-gestao-pedidos),
-precisamos do container ms-gestao-pedidos:dev rodando, acesse o projeto e rode o comando: <b><i>"docker-compose up"</i></b>
+precisamos do container ms-gestao-pedidos:dev rodando, acesse o projeto e rode o comando: 
+```bash
+docker-compose up
+```
 , a partir disso, vamos rodar o mesmo comando: <b><i>"docker-compose up"</i></b> para subir nosso projeto.
 Confira em seu Docker Desktop a subida dos containers e suas respectivas aplicações e bancos de dados isolados.
 
